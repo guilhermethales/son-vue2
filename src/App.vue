@@ -2,7 +2,8 @@
   <div id="app">
     <img src="./assets/logo.png">
     <router-view></router-view>
-    {{team}}
+    {{team.name}} <img :src="team.shield">
+    {{team1.name}} <img :src="team1.shield">
   </div>
 </template>
 
@@ -13,7 +14,8 @@ export default {
   name: 'app',
   data() {
     return {
-      team: new Team('Atlético-MG', 'value')
+      team: new Team('América-MG', require('./assets/america_mg_60x60.png')),
+      team1: new Team('América-MG', require('./assets/atletico_mg_60x60.png'))
     };
   }
 };
