@@ -20,10 +20,10 @@ export default {
   data() {
     return {
       teams: [
-        new Team('América-MG', require('./assets/america_mg_60x60.png')),
-        new Team('Atlético-MG', require('./assets/atletico_mg_60x60.png')),
-        new Team('Atlético-PR', require('./assets/atletico-pr_60x60.png')),
-        new Team('Botafogo', require('./assets/botafogo_60x60.png'))
+        new Team('América-MG', require('./assets/img/america_mg_60x60.png')),
+        new Team('Atlético-MG', require('./assets/img/atletico_mg_60x60.png')),
+        new Team('Atlético-PR', require('./assets/img/atletico-pr_60x60.png')),
+        new Team('Botafogo', require('./assets/img/botafogo_60x60.png'))
       ],
       alfabeto: {
         a: 'A',
@@ -37,13 +37,4 @@ export default {
 };
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style src="./assets/sass/app.scss" lang="sass"></style>
