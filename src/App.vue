@@ -27,6 +27,27 @@
         </tbody>
       </table>
     </div>
+
+    <div class="row">
+      <form class="form-inline">
+        <div class="form-group">
+          <input type="text" class="form-control">
+          <label class="control-label">
+            {{ newGame.home.team.name }}
+            <img :src="newGame.home.team.shield" style="height: 30px; width: 30px;">
+          </label>
+        </div>
+        <span>X</span>
+        <div class="form-group">
+          <label class="control-label">
+            <img :src="newGame.outside.team.shield" style="height: 30px; width: 30px;">
+            {{ newGame.outside.team.name }}
+          </label>
+          <input type="text" class="form-control">
+        </div>
+        <button type="button" class="btn btn-primary">Fim de jogo</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -59,14 +80,26 @@ export default {
         new Team('Sport', require('./assets/img/sport_60x60.png')),
         new Team('Vitória', require('./assets/img/vitoria_60x60.png'))
       ],
-      alfabeto: {
-        a: 'A',
-        b: 'B',
-        c: 'C',
-        d: 'D',
-        e: 'E'
+      newGame: {
+        home: {
+          team: null,
+          goals: 0
+        },
+        outside: {
+          team: null,
+          goals: 0
+        }
       }
     };
+  },
+  created() {
+    const indexHome = Math.floor(Math.random() * 20);
+    const indexOutside = Math.floor(Math.random() * 20);
+
+    this.newGame.home.team = this.teams[indexHome];
+    this.newGame.home.gols = 0;
+    this.newGame.outside.team = this.teams[indexOutside];
+    this.newGame.outside.gols = 0;
   }
 };
 </script>
