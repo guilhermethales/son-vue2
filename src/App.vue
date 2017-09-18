@@ -1,9 +1,14 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <router-view></router-view>
-    {{team.name}} <img :src="team.shield">
-    {{team1.name}} <img :src="team1.shield">
+    <ul>
+      <li v-for="team in teams">
+        {{ team.name }} <img :src="team.shield">
+      </li>
+      <li v-for="(value, key, index) in alfabeto">
+        {{ index }} - {{ key }} : {{ value }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -14,8 +19,19 @@ export default {
   name: 'app',
   data() {
     return {
-      team: new Team('América-MG', require('./assets/america_mg_60x60.png')),
-      team1: new Team('América-MG', require('./assets/atletico_mg_60x60.png'))
+      teams: [
+        new Team('América-MG', require('./assets/america_mg_60x60.png')),
+        new Team('Atlético-MG', require('./assets/atletico_mg_60x60.png')),
+        new Team('Atlético-PR', require('./assets/atletico-pr_60x60.png')),
+        new Team('Botafogo', require('./assets/botafogo_60x60.png'))
+      ],
+      alfabeto: {
+        a: 'A',
+        b: 'B',
+        c: 'C',
+        d: 'D',
+        e: 'E'
+      }
     };
   }
 };
