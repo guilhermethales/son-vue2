@@ -2,19 +2,18 @@
   <div id="app">
     <img src="./assets/logo.png">
     <router-view></router-view>
-    <p :id="numberInteger">{{ title }}</p>
-    <a :href="link">Teste</a>
+    {{team}}
   </div>
 </template>
 
 <script>
+import Team from './team';
+
 export default {
   name: 'app',
   data() {
     return {
-      title: 'Este é um título teste',
-      numberInteger: 10,
-      link: 'http://localhost:8080'
+      team: new Team('Atlético-MG', 'value')
     };
   }
 };
