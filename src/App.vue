@@ -6,11 +6,7 @@
 
       <table class="table table-striped">
         <thead>
-          <th>Time</th>
-          <th>Pontos</th>
-          <th>GF</th>
-          <th>GS</th>
-          <th>Saldo</th>
+          <th v-for="column of columns">{{ column | ucwords }}</th>
         </thead>
 
         <tbody>
@@ -22,7 +18,7 @@
             <td>{{ team.points }}</td>
             <td>{{ team.goalsScored }}</td>
             <td>{{ team.goalsConceded }}</td>
-            <td>{{ team.goalsScored - team.goalsConceded }}</td>
+            <td>{{ team | balance }}</td>
           </tr>
         </tbody>
       </table>
@@ -58,6 +54,7 @@ export default {
   name: 'app',
   data() {
     return {
+      columns: ['nome', 'pontos', 'gf', 'gs', 'saldo'],
       teams: [
         new Team('América-MG', require('./assets/img/america_mg_60x60.png')),
         new Team('Atlético-MG', require('./assets/img/atletico_mg_60x60.png')),
@@ -112,6 +109,18 @@ export default {
       const goalsHome = +this.newGame.home.goals;
       const goalsOutside = +this.newGame.outside.goals;
       this.newGame.home.team.endGame(adversaryTeam, goalsHome, goalsOutside);
+    },
+  },
+  filters: {
+    balance(team) {
+      return team.goalsScored - team.goalsConceded;
+    },
+    ucwords(value) {
+      if (value.length === 2) {
+        return value.toUpperCase();
+      }
+
+      return value.charAt(0).toUpperCase() + value.slice(1);
     }
   }
 };
