@@ -2,47 +2,49 @@
   <div id="app" class="container">
     <div class="row">
       <h3>Campeonato Brasileiro - Série A - 2016</h3>
+       <a class="btn btn-primary" @click.prevent="createGame">Novo jogo</a>
       <br><br>
+      <div v-if="view === 'table'">
+        <table class="table table-striped">
+          <thead>
+            <th v-for="column of columns">{{ column | ucwords }}</th>
+          </thead>
 
-      <table class="table table-striped">
-        <thead>
-          <th v-for="column of columns">{{ column | ucwords }}</th>
-        </thead>
+          <tbody>
+            <tr v-for="team in teams">
+              <td>
+                <img :src="team.shield" style="height: 30px; width: 30px;">
+                <strong>{{ team.name }}</strong>
+              </td>
+              <td>{{ team.points }}</td>
+              <td>{{ team.goalsScored }}</td>
+              <td>{{ team.goalsConceded }}</td>
+              <td>{{ team | balance }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        <tbody>
-          <tr v-for="team in teams">
-            <td>
-              <img :src="team.shield" style="height: 30px; width: 30px;">
-              <strong>{{ team.name }}</strong>
-            </td>
-            <td>{{ team.points }}</td>
-            <td>{{ team.goalsScored }}</td>
-            <td>{{ team.goalsConceded }}</td>
-            <td>{{ team | balance }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="row">
-      <form class="form-inline">
-        <div class="form-group">
-          <input type="text" class="form-control" v-model="newGame.home.goals">
-          <label class="control-label">
-            {{ newGame.home.team.name }}
-            <img :src="newGame.home.team.shield" style="height: 30px; width: 30px;">
-          </label>
-        </div>
-        <span>X</span>
-        <div class="form-group">
-          <label class="control-label">
-            <img :src="newGame.outside.team.shield" style="height: 30px; width: 30px;">
-            {{ newGame.outside.team.name }}
-          </label>
-          <input type="text" class="form-control" v-model="newGame.outside.goals">
-        </div>
-        <button type="button" class="btn btn-primary" @click="endGame()">Fim de jogo</button>
-      </form>
+      <div v-if="view === 'newGame'">
+        <form class="form-inline">
+          <div class="form-group">
+            <input type="text" class="form-control" v-model="newGame.home.goals">
+            <label class="control-label">
+              {{ newGame.home.team.name }}
+              <img :src="newGame.home.team.shield" style="height: 30px; width: 30px;">
+            </label>
+          </div>
+          <span>X</span>
+          <div class="form-group">
+            <label class="control-label">
+              <img :src="newGame.outside.team.shield" style="height: 30px; width: 30px;">
+              {{ newGame.outside.team.name }}
+            </label>
+            <input type="text" class="form-control" v-model="newGame.outside.goals">
+          </div>
+          <button type="button" class="btn btn-primary" @click="endGame()">Fim de jogo</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -87,21 +89,8 @@ export default {
           goals: 0
         }
       },
-      obj: {
-        street: 'Rua Úrsula Paulino',
-        neighborhood: 'betânia',
-        number: 409
-      },
+      view: 'table'
     };
-  },
-  created() {
-    const indexHome = Math.floor(Math.random() * 20);
-    const indexOutside = Math.floor(Math.random() * 20);
-
-    this.newGame.home.team = this.teams[indexHome];
-    this.newGame.home.gols = 0;
-    this.newGame.outside.team = this.teams[indexOutside];
-    this.newGame.outside.gols = 0;
   },
   methods: {
     endGame() {
@@ -109,7 +98,21 @@ export default {
       const goalsHome = +this.newGame.home.goals;
       const goalsOutside = +this.newGame.outside.goals;
       this.newGame.home.team.endGame(adversaryTeam, goalsHome, goalsOutside);
+      this.showView('table');
     },
+    createGame() {
+      const indexHome = Math.floor(Math.random() * 20);
+      const indexOutside = Math.floor(Math.random() * 20);
+
+      this.newGame.home.team = this.teams[indexHome];
+      this.newGame.home.gols = 0;
+      this.newGame.outside.team = this.teams[indexOutside];
+      this.newGame.outside.gols = 0;
+      this.showView('newGame');
+    },
+    showView(view) {
+      this.view = view;
+    }
   },
   filters: {
     balance(team) {
