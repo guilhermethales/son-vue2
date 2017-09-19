@@ -3,9 +3,9 @@
     <div class="row">
       <h3>Campeonato Brasileiro - Série A - 2016</h3>
        <a class="btn btn-primary" @click.prevent="createGame">Novo jogo</a>
-       <a class="btn btn-info" @click.prevent="orderTable">Ordernar Tabela</a>
       <br><br>
       <div v-if="view === 'table'">
+        <input type="text" class="form-control" v-model="filter">
         <table class="table table-striped">
           <thead>
             <th v-for="column of columns">
@@ -64,6 +64,7 @@ export default {
         keys: ['points', 'goalsScored', 'goalsConceded'],
         sort: ['desc', 'desc', 'asc']
       },
+      filter: '',
       columns: ['nome', 'pontos', 'gf', 'gs', 'saldo'],
       teams: [
         new Team('América-MG', require('./assets/img/america_mg_60x60.png')),
@@ -140,7 +141,11 @@ export default {
   },
   computed: {
     teamsFiltered() {
-      return _.orderBy(this.teams, this.order.keys, this.order.sort);
+      const colection = _.orderBy(this.teams, this.order.keys, this.order.sort);
+
+      return _.filter(colection, (item) => {
+        return item.name.indexOf(this.filter) >= 0;
+      });
     }
   },
   filters: {
