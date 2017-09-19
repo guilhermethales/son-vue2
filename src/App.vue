@@ -45,7 +45,7 @@
           </label>
           <input type="text" class="form-control" v-model="newGame.outside.goals">
         </div>
-        <button type="button" class="btn btn-primary">Fim de jogo</button>
+        <button type="button" class="btn btn-primary" @click="endGame()">Fim de jogo</button>
       </form>
     </div>
   </div>
@@ -89,7 +89,12 @@ export default {
           team: null,
           goals: 0
         }
-      }
+      },
+      obj: {
+        street: 'Rua Úrsula Paulino',
+        neighborhood: 'betânia',
+        number: 409
+      },
     };
   },
   created() {
@@ -100,6 +105,14 @@ export default {
     this.newGame.home.gols = 0;
     this.newGame.outside.team = this.teams[indexOutside];
     this.newGame.outside.gols = 0;
+  },
+  methods: {
+    endGame() {
+      const adversaryTeam = this.newGame.outside.team;
+      const goalsHome = +this.newGame.home.goals;
+      const goalsOutside = +this.newGame.outside.goals;
+      this.newGame.home.team.endGame(adversaryTeam, goalsHome, goalsOutside);
+    }
   }
 };
 </script>
