@@ -31,7 +31,7 @@
     <div class="row">
       <form class="form-inline">
         <div class="form-group">
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" v-model="newGame.home.goals">
           <label class="control-label">
             {{ newGame.home.team.name }}
             <img :src="newGame.home.team.shield" style="height: 30px; width: 30px;">
@@ -43,7 +43,7 @@
             <img :src="newGame.outside.team.shield" style="height: 30px; width: 30px;">
             {{ newGame.outside.team.name }}
           </label>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" v-model="newGame.outside.goals">
         </div>
         <button type="button" class="btn btn-primary">Fim de jogo</button>
       </form>
