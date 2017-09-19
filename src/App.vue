@@ -3,15 +3,18 @@
     <div class="row">
       <h3>Campeonato Brasileiro - Série A - 2016</h3>
        <a class="btn btn-primary" @click.prevent="createGame">Novo jogo</a>
+       <a class="btn btn-info" @click.prevent="orderTable">Ordernar Tabela</a>
       <br><br>
       <div v-if="view === 'table'">
         <table class="table table-striped">
           <thead>
-            <th v-for="column of columns">{{ column | ucwords }}</th>
+            <th v-for="column of columns">
+              <a href="#" @click.prevent="sortBy(column)">{{ column | ucwords }}</a>
+            </th>
           </thead>
 
           <tbody>
-            <tr v-for="team in teams">
+            <tr v-for="team in teamsFiltered">
               <td>
                 <img :src="team.shield" style="height: 30px; width: 30px;">
                 <strong>{{ team.name }}</strong>
@@ -50,12 +53,17 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import Team from './team';
 
 export default {
   name: 'app',
   data() {
     return {
+      order: {
+        keys: ['points', 'goalsScored', 'goalsConceded'],
+        sort: ['desc', 'desc', 'asc']
+      },
       columns: ['nome', 'pontos', 'gf', 'gs', 'saldo'],
       teams: [
         new Team('América-MG', require('./assets/img/america_mg_60x60.png')),
@@ -112,6 +120,27 @@ export default {
     },
     showView(view) {
       this.view = view;
+    },
+    sortBy(column) {
+      this.order.keys = column;
+      this.order.sort = this.order.sort === 'desc' ? 'asc' : 'desc';
+    },
+    orderTable() {
+      const teams = this.teams;
+      for (const team in teams) {
+        if (teams[team].points < teams[+team + 1].points) {
+          let aux = teams[team];
+          this.teams[team] = teams[+team + 1];
+          this.teams[+team + 1] = aux;
+          aux = null;
+        }
+        break;
+      }
+    }
+  },
+  computed: {
+    teamsFiltered() {
+      return _.orderBy(this.teams, this.order.keys, this.order.sort);
     }
   },
   filters: {
